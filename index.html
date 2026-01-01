@@ -1,48 +1,93 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заголовок страницы</title>
-    <link rel="stylesheet" href="./styles/style.css">
+    <title>Код</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 400px;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 1rem;
+            color: #28a745;
+            font-weight: bold;
+            min-height: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Ваш код:</h2>
+        <input type="text" id="codeInput" readonly>
+        <button onclick="copyCode()">Скопировать</button>
+        <div class="message" id="copyMessage"></div>
+    </div>
 
-    <meta property="og:title" content="Заголовок страницы в OG">
-    <meta property="og:description" content="Описание страницы в OG">
-    <meta property="og:image" content="https://example.com/image.jpg">
-    <meta property="og:url" content="https://example.com/">
-  </head>
-  <body>
-    <header>
-      <h1>Личный сайт</h1>
-      <p>Который сделан на основе готового шаблона</p>
-      <nav>
-        <ul>
-          <li><a href="index.html">Эта страница</a></li>
-          <li><a href="catalog.html">Другая страница</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <article>
-        <section>
-          <h2>Первая секция</h2>
-          <p>Она обо мне</p>
-          <img src="images/image.png" alt="Человек и пароход">
-          <p>Но может быть и о семантике, я пока не решил.</p>
-        </section>
-        <section>
-          <h2>Вторая секция</h2>
-          <p>Она тоже обо мне</p>
-        </section>
-        <section>
-          <h2>И третья</h2>
-          <p>Вы уже должны были начать догадываться.</p>
-        </section>
-      </article>
-    </main>
-    <footer>
-      <p>Сюда бы я вписал информацию об авторе и ссылки на другие сайты</p>
-    </footer>
-    <!-- сюда можно подключить jquery <script src="scripts/app.js" defer></script> -->
-  </body>
+    <script>
+        // Получаем значение параметра 'code' из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code') || 'Код не указан';
+
+        // Отображаем код в поле
+        document.getElementById('codeInput').value = code;
+
+        // Функция копирования
+        function copyCode() {
+            const input = document.getElementById('codeInput');
+            input.select();
+            input.setSelectionRange(0, 99999); // Для мобильных устройств
+
+            try {
+                document.execCommand('copy');
+                document.getElementById('copyMessage').textContent = 'Скопировано!';
+                setTimeout(() => {
+                    document.getElementById('copyMessage').textContent = '';
+                }, 2000);
+            } catch (err) {
+                document.getElementById('copyMessage').textContent = 'Ошибка копирования';
+                setTimeout(() => {
+                    document.getElementById('copyMessage').textContent = '';
+                }, 2000);
+            }
+        }
+    </script>
+</body>
 </html>
